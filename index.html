@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Insurance System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="signup">Sign Up</button>
+            </div>
+            
+            <form id="loginForm" class="auth-form active">
+                <h3>Welcome Back</h3>
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="password-toggle" onclick="var input = this.parentNode.querySelector('input'); var icon = this.querySelector('i'); if(input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <button type="submit" class="btn primary-btn">Login</button>
+            </form>
+
+            <form id="signupForm" class="auth-form">
+                <h3>Create Account</h3>
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" required placeholder="Enter your full name">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required placeholder="Enter your email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create a password">
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="password-toggle" onclick="var input = this.parentNode.querySelector('input'); var icon = this.querySelector('i'); if(input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="password-toggle" onclick="var input = this.parentNode.querySelector('input'); var icon = this.querySelector('i'); if(input.type === 'password') { input.type = 'text'; icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); } else { input.type = 'password'; icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <button type="submit" class="btn primary-btn">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1>InsureDrive</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#quote">Get Quote</a></li>
+                <li><a href="#claims">Claims</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="dashboard-link" style="display: none;"><a href="#dashboard">My Dashboard</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="btn login-btn" id="openLogin">Login</button>
+                <button class="btn signup-btn" id="openSignup">Sign Up</button>
+            </div>
+            <div class="user-profile" style="display: none;">
+                <span class="user-name"></span>
+                <div class="user-dropdown">
+                    <button class="user-dropdown-toggle">
+                        <i class="fas fa-user-circle"></i>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown-menu">
+                        <a href="#dashboard" class="dropdown-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a href="#profile-panel" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+                        <button class="dropdown-item logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="section hero-section">
+            <div class="hero-content">
+                <h2 style="color: white !important;">Protect Your Journey</h2>
+                <p>Get the best vehicle insurance coverage tailored to your needs. Fast, reliable, and affordable protection for your vehicle.</p>
+                <button class="btn primary-btn">Get Started</button>
+            </div>
+        </section>
+
+        <!-- User Dashboard Section (Only visible when logged in) -->
+        <section id="dashboard" class="section dashboard-section" style="display: none;">
+            <h2>My Dashboard</h2>
+            <div class="dashboard-content">
+                <div class="dashboard-tabs">
+                    <button class="dashboard-tab active" data-tab="quotes">My Quotes</button>
+                    <button class="dashboard-tab" data-tab="claims">My Claims</button>
+                    <button class="dashboard-tab" data-tab="profile">My Profile</button>
+                </div>
+                <div class="dashboard-tab-content">
+                    <div class="dashboard-panel active" id="quotes-panel">
+                        <h3>Your Saved Quotes</h3>
+                        <div class="saved-quotes">
+                            <!-- Quotes will be populated here -->
+                            <div class="empty-state">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                                <p>You don't have any saved quotes yet.</p>
+                                <a href="#quote" class="btn primary-btn">Get a Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-panel" id="claims-panel">
+                        <h3>Your Claims</h3>
+                        <div class="saved-claims">
+                            <!-- Claims will be populated here -->
+                            <div class="empty-state">
+                                <i class="fas fa-file-alt"></i>
+                                <p>You don't have any claims yet.</p>
+                                <a href="#claims" class="btn primary-btn">File a Claim</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-panel" id="profile-panel">
+                        <h3>Your Profile</h3>
+                        <div class="profile-details">
+                            <div class="profile-field">
+                                <label for="profile-name">Name:</label>
+                                <span id="profile-name"></span>
+                            </div>
+                            <div class="profile-field">
+                                <label for="profile-email">Email:</label>
+                                <span id="profile-email"></span>
+                            </div>
+                            <div class="profile-field">
+                                <label for="profile-created">Member Since:</label>
+                                <span id="profile-created"></span>
+                            </div>
+                        </div>
+                        <button class="btn logout-btn dashboard-logout">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quote" class="section quote-section">
+            <h2>Get Your Insurance Quote</h2>
+            <div class="form-container">
+                <form id="insuranceForm">
+                    <div class="form-group">
+                        <label for="vehicleType">Vehicle Type</label>
+                        <select id="vehicleType" required>
+                            <option value="">Select Vehicle Type</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="pickup">Pickup Truck</option>
+                            <option value="motorcycle">Motorcycle</option>
+                            <option value="scooter">Scooter</option>
+                            <option value="bus">Bus</option>
+                            <option value="truck">Truck</option>
+                            <option value="van">Van</option>
+                            <option value="luxury">Luxury Vehicle</option>
+                        </select>
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="make">Make</label>
+                        <input type="text" id="make" required placeholder="Enter vehicle make">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" id="model" required placeholder="Enter vehicle model">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="year">Year</label>
+                        <input type="number" id="year" required placeholder="Enter vehicle year">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Calculate Quote</button>
+                </form>
+                <div class="quote-result">
+                    <h3>Your Quote Details</h3>
+                    <div class="quote-details">
+                        <p>Vehicle Type: <span id="quote-vehicle-type"></span></p>
+                        <p>Make: <span id="quote-make"></span></p>
+                        <p>Model: <span id="quote-model"></span></p>
+                        <p>Year: <span id="quote-year"></span></p>
+                        <div class="premium">
+                            <p>Estimated Premium:</p>
+                            <h4 id="quote-premium">KES 0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="claims" class="section claims-section">
+            <h2>File a Claim</h2>
+            <div class="form-container">
+                <form id="claimForm">
+                    <div class="form-group">
+                        <label for="claimType">Claim Type</label>
+                        <select id="claimType" required>
+                            <option value="">Select Claim Type</option>
+                            <option value="accident">Road Accident</option>
+                            <option value="theft">Vehicle Theft</option>
+                            <option value="vandalism">Vandalism</option>
+                            <option value="natural">Natural Disaster</option>
+                            <option value="fire">Fire Damage</option>
+                            <option value="flood">Flood Damage</option>
+                            <option value="glass">Glass Breakage</option>
+                            <option value="hit_run">Hit and Run</option>
+                            <option value="parking">Parking Damage</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimDescription">Description</label>
+                        <textarea id="claimDescription" required placeholder="Describe the incident in detail"></textarea>
+                        <i class="fas fa-align-left"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="claimDate">Date of Incident</label>
+                        <input type="date" id="claimDate" required>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Submit Claim</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="contact" class="section contact-section">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+254 700 123 456</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>support@insuredrive.co.ke</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Westlands, Nairobi, Kenya</p>
+                    </div>
+                </div>
+                <form id="contactForm" class="contact-form">
+                    <div class="form-group">
+                        <label for="contactName">Name</label>
+                        <input type="text" id="contactName" required placeholder="Enter your name">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Email</label>
+                        <input type="email" id="contactEmail" required placeholder="Enter your email">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" required placeholder="Enter your message"></textarea>
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div class="contact-success">
+        <i class="fas fa-check-circle"></i>
+        <span>Your message has been sent successfully!</span>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>InsureDrive is your trusted partner for vehicle insurance. We provide comprehensive coverage and excellent customer service.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#quote"><i class="fas fa-calculator"></i> Get Quote</a></li>
+                    <li><a href="#claims"><i class="fas fa-file-alt"></i> Claims</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                    <li><a href="#terms"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+                    <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 InsureDrive. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
